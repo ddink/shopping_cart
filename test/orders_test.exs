@@ -1,6 +1,9 @@
 defmodule OrdersTest do
   use ShoppingCart.DataCase, async: true
   alias Orders.Order
+  alias ShoppingCart.Repo
+  alias ShoppingCart.Schemas.Cart
+  import ShoppingCart.Query
 
   describe "create_order" do
     test "success: it inserts an order in the db and returns the order" do
@@ -41,6 +44,93 @@ defmodule OrdersTest do
 
     test "error: it returns nil when an order doesn't exist" do
       assert nil == ShoppingCart.get_order(Enum.random(10..10000))
+    end
+  end
+
+  describe "get_by_user/1" do
+    test "success: it returns all orders associated with a user when given the user" do
+      user = Factory.insert(:user)
+      cart1 = Factory.insert(:cart)
+      cart2 = Factory.insert(:cart)
+      
+      changeset1 = Cart.changeset(cart1, %{user_id: user.id})
+      Repo.update(changeset1)
+      
+      changeset2 = Cart.changeset(cart2, %{user_id: user.id})
+      Repo.update(changeset2)
+
+      cart1 = Repo.get(cart_with_order(), cart1.id)
+      cart2 = Repo.get(cart_with_order(), cart2.id)
+
+      assert cart1.user_id == user.id
+      assert cart2.user_id == user.id
+
+      assert Orders.get_by_user(user) == [cart1.order, cart2.order]
+    end
+
+    test "error: it returns nil when there are no orders associated with a user" do
+      user = Factory.insert(:user)
+
+      assert Orders.get_by_user(user) == nil
+    end
+  end
+
+  describe "get_by_date/1" do
+    test "success: it returns all orders with an inserted_at value that matches the given a naive datetime" do
+      order1 = Factory.insert(:order)
+      order2 = Factory.insert(:order)
+
+      assert Orders.get_by_date(NaiveDateTime.utc_now()) == [order1, order2]
+    end
+
+    test "success: it returns all orders with an inserted_at value that matches given datetime's date only" do
+      order1 = Factory.insert(:order)
+      order2 = Factory.insert(:order)
+      now = NaiveDateTime.utc_now()
+      date = NaiveDateTime.to_date(now)
+      time = Time.new!(20, 0, 0, 0)
+
+      assert Orders.get_by_date(NaiveDateTime.new!(date, time)) == [order1, order2]
+    end
+
+    test "error: it returns nil when there are no orders with a matching inserted_at value" do
+      assert Orders.get_by_date(NaiveDateTime.utc_now()) == nil
+    end
+  end
+
+  describe "get_by_payment_method/1" do
+    test "success: it returns all orders with a payment_method value that matches the given payment method" do
+      order1 = Factory.insert(:static_value_order)
+      order2 = Factory.insert(:static_value_order)
+      order3 = Factory.insert(:static_value_order)
+
+      assert Orders.get_by_payment_method(order1.payment_method) == [order1, order2, order3]
+    end
+
+    test "error: it returns nil where there are no orders witih a matching payment_method value" do
+      Factory.insert(:static_value_order)
+      Factory.insert(:static_value_order)
+      Factory.insert(:static_value_order)
+
+      assert Orders.get_by_payment_method("EFECTY") == nil
+    end
+  end
+
+  describe "get_orders_by_payment_country/1" do
+    test "success: it returns all orders with a payment_country value that matches the given country code" do
+      order1 = Factory.insert(:static_value_order)
+      order2 = Factory.insert(:static_value_order)
+      order3 = Factory.insert(:static_value_order)
+
+      assert Orders.get_by_payment_country(order1.payment_country) == [order1, order2, order3]
+    end
+
+    test "error: it returns nil where there are no orders witih a matching payment_country value" do
+      Factory.insert(:static_value_order)
+      Factory.insert(:static_value_order)
+      Factory.insert(:static_value_order)
+
+      assert Orders.get_by_payment_method("US") == nil
     end
   end
 

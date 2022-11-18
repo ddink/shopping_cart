@@ -196,7 +196,6 @@ defmodule ShoppingCart.Factory do
   def static_value_order_factory do
     order_price = Enum.random(20_000..1_000_000)
     tax_price = (order_price * 0.19) |> floor
-    country_code = Faker.Address.country_code()
 
     %Order{
       total_transaction_price: order_price + tax_price,
@@ -205,7 +204,7 @@ defmodule ShoppingCart.Factory do
       currency: "GBP",
       payment_installments: 10,
       payment_method: "Credit Card",
-      payment_country: country_code,
+      payment_country: "HK",
       skus: %{
         Faker.Address.country_code() => to_string(Enum.random(1..5))
       },
@@ -241,7 +240,7 @@ defmodule ShoppingCart.Factory do
     tax_price = (order_price * 0.19) |> floor
     payment_method = Enum.random(["EFECTY", "PSE", "BANK_REFERENCED"])
     country_code = Faker.Address.country_code()
-    cart = insert(:cart)
+    cart = insert(:empty_cart_no_order)
 
     %Order{
       total_transaction_price: order_price + tax_price,
