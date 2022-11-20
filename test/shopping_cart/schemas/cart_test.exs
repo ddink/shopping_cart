@@ -1,11 +1,11 @@
-defmodule ShoppingCart.Shcemas.CartTest do
+defmodule ShoppingCart.Schemas.CartTest do
   use ShoppingCart.DataCase, async: true
   alias Ecto.Changeset
   alias ShoppingCart.Schemas.Cart
 
   describe "changeset/1" do
     test "success: returns a valid changeset when given valid arguments" do
-      params = Factory.string_params_for(:cart)
+      params = Factory.string_params_for(:cart_with_no_order)
 
       changeset = Cart.changeset(params)
 
@@ -68,7 +68,7 @@ defmodule ShoppingCart.Shcemas.CartTest do
 
   describe "create_changeset/1" do
     test "success: returns a valid changeset when given valid arguments" do
-      params = Factory.string_params_for(:cart)
+      params = Factory.string_params_for(:cart_with_no_order)
 
       changeset = Cart.create_changeset(params)
 

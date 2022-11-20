@@ -1,7 +1,7 @@
 defmodule ShoppingCartTest do
   use ShoppingCart.DataCase, async: true
   alias ShoppingCart.Schemas.{Cart, User}
-  alias ShoppingCart.Repo
+  alias StoreRepo.Repo
   alias Orders.Order
   import ShoppingCart.Query
 
@@ -17,11 +17,11 @@ defmodule ShoppingCartTest do
         "order"
       ]
 
-      params = Factory.string_params_for(:cart)
+      params = Factory.string_params_for(:cart_with_no_order)
 
       assert {:ok, %Cart{} = returned_cart} = ShoppingCart.create_cart(params)
 
-      cart_from_db = Repo.get(cart_with_order(), returned_cart.id)
+      cart_from_db = Repo.get(Cart, returned_cart.id)
       assert returned_cart == cart_from_db
 
       for {param_field, expected} <- params,
@@ -376,7 +376,7 @@ defmodule ShoppingCartTest do
       existing_cart = Factory.insert(:empty_cart)
 
       params =
-        Factory.string_params_for(:cart)
+        Factory.string_params_for(:cart_with_no_order)
         |> Map.take(["cookie"])
 
       assert {:ok, %Cart{} = returned_cart} = ShoppingCart.update_cart(existing_cart, params)
@@ -430,7 +430,6 @@ defmodule ShoppingCartTest do
       assert returned_cart == cart_from_db
 
       for {param_field, expected} <- embedded_params do
-        # dbg()
         schema_field = String.to_existing_atom(param_field)
         actual = Map.get(returned_cart.billing_address, schema_field)
 

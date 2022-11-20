@@ -1,5 +1,5 @@
 defmodule ShoppingCart.Factory do
-  use ExMachina.Ecto, repo: ShoppingCart.Repo
+  use ExMachina.Ecto, repo: StoreRepo.Repo
 
   alias ShoppingCart.Schemas.{
     Cart,
@@ -93,7 +93,7 @@ defmodule ShoppingCart.Factory do
   end
 
   def cart_factory do
-    order = order_factory()
+    order = insert(:order)
     user = insert(:user)
 
     %Cart{
@@ -116,7 +116,49 @@ defmodule ShoppingCart.Factory do
         phone_number: Faker.Phone.EnUs.phone(),
         documentation_number: Faker.Address.country_code()
       },
-      order: order_factory(),
+      order: order,
+      payment_method: %{
+        name: order.payment_method
+      },
+      shipping_address: %{
+        first_line: Faker.Address.street_address(),
+        second_line: Faker.Address.secondary_address(),
+        city: Faker.Address.city(),
+        state: Faker.Address.state(),
+        country: Faker.Address.country_code(),
+        postal_code: Faker.Address.postcode(),
+        phone_number: Faker.Phone.EnUs.phone()
+      },
+      user_id: user.id,
+      user: user
+    }
+  end
+
+  def cart_with_no_order_factory do
+    order = insert(:order)
+    user = insert(:user)
+
+    %Cart{
+      cookie: Faker.UUID.v4(),
+      browser_user_agent: Faker.Internet.UserAgent.desktop_user_agent(),
+      language: Enum.random(["en", "es", "pt"]),
+      billing_address: %{
+        first_line: Faker.Address.street_address(),
+        second_line: Faker.Address.secondary_address(),
+        city: Faker.Address.city(),
+        state: Faker.Address.state(),
+        country: order.payment_country,
+        postal_code: Faker.Address.postcode(),
+        phone_number: Faker.Phone.EnUs.phone()
+      },
+      customer: %{
+        first_name: Faker.Person.PtBr.first_name(),
+        last_name: Faker.Person.PtBr.last_name(),
+        email: Faker.Internet.email(),
+        phone_number: Faker.Phone.EnUs.phone(),
+        documentation_number: Faker.Address.country_code()
+      },
+      order: nil,
       payment_method: %{
         name: order.payment_method
       },
