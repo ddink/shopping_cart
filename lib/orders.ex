@@ -1,6 +1,6 @@
 defmodule Orders do
   alias Orders.Order
-  alias ShoppingCart.Repo
+  alias StoreRepo.Repo
   import ShoppingCart.Query
 
   # Create

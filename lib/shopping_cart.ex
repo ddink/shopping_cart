@@ -8,7 +8,7 @@ defmodule ShoppingCart do
     User
   }
 
-  alias ShoppingCart.Repo
+  alias StoreRepo.Repo
   alias Orders.Order
   import ShoppingCart.Query
 

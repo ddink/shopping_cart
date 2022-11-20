@@ -5,6 +5,10 @@ defmodule ShoppingCart.MixProject do
     [
       app: :shopping_cart,
       version: "0.1.0",
+      build_path: "../../_build",
+      config_path: "../../config/config.exs",
+      deps_path: "../../deps",
+      lockfile: "../../mix.lock",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,8 +22,8 @@ defmodule ShoppingCart.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      mod: {ShoppingCart.Application, []}
+      extra_applications: [:logger, :store_repo],
+      # mod: {ShoppingCart.Application, []}
     ]
   end
 
@@ -30,7 +34,8 @@ defmodule ShoppingCart.MixProject do
       {:ecto_sql, "~> 3.9"},
       {:ex_machina, "~> 2.7"},
       {:postgrex, "~> 0.16.5"},
-      {:faker, "~> 0.17.0", only: [:test, :dev]}
+      {:faker, "~> 0.17.0", only: [:test, :dev]},
+      {:store_repo, in_umbrella: true}
     ]
   end
 end
