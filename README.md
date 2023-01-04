@@ -1,6 +1,4 @@
-# ShoppingCart
-
-**TODO: Add description**
+# Shopping Cart
 
 ## Installation
 
