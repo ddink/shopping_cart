@@ -10,7 +10,7 @@ defmodule ShoppingCart.Factory do
     User
   }
 
-  alias Orders.Order
+  alias ShoppingCart.Schemas.Orders.Order
 
   def empty_cart_no_order_factory do
     user = insert(:user)

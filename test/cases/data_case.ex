@@ -2,7 +2,7 @@ defmodule ShoppingCart.DataCase do
   use ExUnit.CaseTemplate
   alias ShoppingCart.Schemas.{Cart, Customer, PaymentMethod, ShippingAddress, User}
   alias StoreRepo.Repo
-  alias Orders.Order
+  alias ShoppingCart.Schemas.Orders.Order
   alias Ecto.Changeset
 
   using do

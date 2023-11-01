@@ -1,7 +1,7 @@
-defmodule Orders.OrderTest do
+defmodule ShoppingCart.Schemas.Orders.OrderTest do
   use ShoppingCart.DataCase, async: true
   alias Ecto.Changeset
-  alias Orders.Order
+  alias ShoppingCart.Schemas.Orders.Order
 
   describe "changeset/1" do
     test "success: returns a valid changeset when given valid arguments" do

@@ -1,7 +1,7 @@
 defmodule ShoppingCart.Query do
   import Ecto.Query
   alias ShoppingCart.Schemas.Cart
-  alias Orders.Order
+  alias ShoppingCart.Schemas.Orders.Order
 
   def cart_with_order do
     from(c in Cart,
