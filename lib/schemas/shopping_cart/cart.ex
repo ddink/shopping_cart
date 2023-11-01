@@ -2,7 +2,7 @@ defmodule ShoppingCart.Schemas.Cart do
   use Ecto.Schema
   import Ecto.Changeset
   alias ShoppingCart.Schemas.{ShippingAddress, BillingAddress, Customer, PaymentMethod, User}
-  alias Orders.Order
+  alias ShoppingCart.Schemas.Orders.Order
 
   @supported_languages ["en", "es", "pt"]
 
@@ -152,7 +152,7 @@ defmodule ShoppingCart.Schemas.Cart do
     |> changeset(params)
     |> validate_required(:customer)
     |> cast_embed(:customer)
-  end  
+  end
 
   def update_payment_method_changeset(params) do
     update_payment_method_changeset(%__MODULE__{}, params)

@@ -1,4 +1,4 @@
-defmodule Orders.Order do
+defmodule ShoppingCart.Schemas.Orders.Order do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -30,8 +30,8 @@ defmodule Orders.Order do
     __MODULE__.__schema__(:fields) -- [:id, :inserted_at, :updated_at]
   end
 
-  # These are fields that don't need to have values until 
-  # the "ready_for_payment" status phase 
+  # These are fields that don't need to have values until
+  # the "ready_for_payment" status phase
   defp optional_fields,
     do: [:status, :currency, :payment_installments, :payment_method, :payment_country]
 
