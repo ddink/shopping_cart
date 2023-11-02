@@ -41,8 +41,6 @@ defmodule ShoppingCart.Schemas.Orders.Order do
 
   def changeset(params), do: changeset(%__MODULE__{}, params)
 
-  def order_statuses, do: @order_statuses
-
   def changeset(%__MODULE__{} = order, params) do
     order
     |> cast(params, fields())

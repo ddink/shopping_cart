@@ -22,8 +22,7 @@ defmodule ShoppingCart.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :store_repo],
-      # mod: {ShoppingCart.Application, []}
+      extra_applications: [:logger, :store_repo]
     ]
   end
 
