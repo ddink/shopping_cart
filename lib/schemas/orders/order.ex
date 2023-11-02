@@ -3,12 +3,12 @@ defmodule ShoppingCart.Schemas.Orders.Order do
   import Ecto.Changeset
 
   @order_statuses [
-    "pre_checkout",
-    "ready_for_payment",
-    "post_checkout",
-    "preparing_for_shipping",
-    "shipped",
-    "delivered"
+    "Pre-checkout",
+    "Ready for payment",
+    "Post-checkout",
+    "Preparing for shipping",
+    "Shipped",
+    "Delivered"
   ]
 
   schema "orders" do
@@ -40,6 +40,8 @@ defmodule ShoppingCart.Schemas.Orders.Order do
   def skus_required_fields, do: [:total_transaction_price, :tax_price, :order_price, :skus]
 
   def changeset(params), do: changeset(%__MODULE__{}, params)
+
+  def order_statuses, do: @order_statuses
 
   def changeset(%__MODULE__{} = order, params) do
     order

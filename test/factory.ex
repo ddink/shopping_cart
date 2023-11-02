@@ -12,6 +12,8 @@ defmodule ShoppingCart.Factory do
 
   alias ShoppingCart.Schemas.Orders.Order
 
+  @static_order_status Enum.random(Order.order_statuses())
+
   def empty_cart_no_order_factory do
     user = insert(:user)
 
@@ -250,7 +252,7 @@ defmodule ShoppingCart.Factory do
       skus: %{
         Faker.Address.country_code() => to_string(Enum.random(1..5))
       },
-      status: "preparing_for_shipping"
+      status: @static_order_status
     }
   end
 
