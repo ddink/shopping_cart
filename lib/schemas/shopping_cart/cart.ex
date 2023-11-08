@@ -6,6 +6,9 @@ defmodule ShoppingCart.Schemas.Cart do
 
   @supported_languages ["en", "es", "pt"]
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  # @foreign_key_type :binary_id
+
   schema "carts" do
     field(:cookie, :string)
     field(:browser_user_agent, :string)

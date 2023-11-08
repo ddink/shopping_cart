@@ -130,7 +130,7 @@ defmodule ShoppingCart.DataCase do
       "payment_country" => 0,
       "skus" => 0,
       "status" => 0,
-      "cart_id" => "not_an_integer"
+      "cart_id" => %{}
     }
   end
 

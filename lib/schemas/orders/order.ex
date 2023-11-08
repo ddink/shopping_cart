@@ -23,7 +23,7 @@ defmodule ShoppingCart.Schemas.Orders.Order do
     field(:status, :string)
     timestamps()
 
-    belongs_to(:cart, ShoppingCart.Schemas.Cart)
+    belongs_to(:cart, ShoppingCart.Schemas.Cart, type: :binary_id)
   end
 
   def fields do
