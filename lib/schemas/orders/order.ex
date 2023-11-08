@@ -11,6 +11,8 @@ defmodule ShoppingCart.Schemas.Orders.Order do
     "Delivered"
   ]
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "orders" do
     field(:total_transaction_price, :integer)
     field(:tax_price, :integer)
