@@ -34,6 +34,7 @@ defmodule ShoppingCart.MixProject do
       {:ex_machina, "~> 2.7"},
       {:postgrex, "~> 0.16.5"},
       {:faker, "~> 0.17.0", only: [:test, :dev]},
+      {:faker_elixir_octopus, "~> 1.0"},
       {:store_repo, in_umbrella: true}
     ]
   end

@@ -1,13 +1,13 @@
 defmodule ShoppingCart.Schemas.Cart do
   use Ecto.Schema
   import Ecto.Changeset
-  alias ShoppingCart.Schemas.{ShippingAddress, BillingAddress, Customer, PaymentMethod, User}
+  alias ShoppingCart.Schemas.{ShippingAddress, BillingAddress, Customer, PaymentMethod}
   alias ShoppingCart.Schemas.Orders.Order
+  alias StoreRepo.Accounts.User
 
   @supported_languages ["en", "es", "pt"]
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  # @foreign_key_type :binary_id
 
   schema "carts" do
     field(:cookie, :string)
@@ -15,7 +15,7 @@ defmodule ShoppingCart.Schemas.Cart do
     field(:language, :string)
     timestamps()
 
-    belongs_to(:user, User, on_replace: :update)
+    belongs_to(:user, User, type: :binary_id, on_replace: :update)
 
     has_one(:order, Order, on_delete: :nilify_all, on_replace: :update)
 
@@ -168,6 +168,15 @@ defmodule ShoppingCart.Schemas.Cart do
     |> cast_embed(:payment_method)
   end
 
+  @doc """
+  The assumption with user changesets is that a "create" changeset shouldn't
+  be necessary as only registered users can have a persisted (i.e. updateable)
+  cart. Otherwise a cart only exists in memory until an order has been made
+  using that cart.
+
+  Let's work from the assumption that the only authenticatable attribute
+  that should be changeable in this changeset is a user's email.
+  """
   def update_user_changeset(params) do
     update_user_changeset(%__MODULE__{}, params)
   end
@@ -176,7 +185,7 @@ defmodule ShoppingCart.Schemas.Cart do
     cart
     |> changeset(params)
     |> validate_required(:user)
-    |> cast_assoc(:user, with: &User.update_cart_changeset/2)
+    |> cast_assoc(:user, with: &User.changeset/2)
   end
 
   # Delete Changesets

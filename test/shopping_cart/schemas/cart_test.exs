@@ -46,7 +46,7 @@ defmodule ShoppingCart.Schemas.CartTest do
       end
     end
 
-    test "error: returns an error changeset with inclusion validation error 
+    test "error: returns an error changeset with inclusion validation error
 					when given un-castable value for language" do
       bad_params = %{
         "cookie" => Faker.UUID.v4(),
@@ -109,7 +109,7 @@ defmodule ShoppingCart.Schemas.CartTest do
       end
     end
 
-    test "error: returns an error changeset with required validation error 
+    test "error: returns an error changeset with required validation error
 					when missing required fields" do
       changeset = Cart.create_changeset(%{})
 
@@ -490,7 +490,7 @@ defmodule ShoppingCart.Schemas.CartTest do
         "user" => %{
           # don't forget to add after migration
           # default_token_id: Faker.UUID.v4(),
-          "name" => Faker.Person.PtBr.name()
+          "first_name" => Faker.Person.PtBr.name()
         }
       }
 
@@ -499,11 +499,7 @@ defmodule ShoppingCart.Schemas.CartTest do
 
     test "error: returns an error changeset when given un-castable values" do
       bad_params = %{
-        "user" => %{
-          # don't forget to add after migration
-          # default_token_id: Faker.UUID.v4(),
-          "name" => %{}
-        }
+        "user" => bad_user_params()
       }
 
       changeset = Cart.update_user_changeset(bad_params)

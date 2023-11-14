@@ -5,6 +5,8 @@ defmodule ShoppingCart.DataCase do
   alias ShoppingCart.Schemas.Orders.Order
   alias Ecto.Changeset
 
+  alias StoreRepo.Accounts.User
+
   using do
     quote do
       alias Ecto.Changeset
@@ -165,7 +167,15 @@ defmodule ShoppingCart.DataCase do
 
   def bad_user_params do
     %{
-      "name" => %{}
+      "first_name" => %{},
+      "last_name" => %{},
+      "phone_number" => %{},
+      "documentation_number" => %{},
+      "documentation_type" => %{},
+      "email" => %{},
+      "password" => %{},
+      "hashed_password" => %{},
+      "confirmed_at" => %{}
     }
   end
 

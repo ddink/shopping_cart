@@ -6,13 +6,15 @@ defmodule ShoppingCart.Factory do
     Customer,
     BillingAddress,
     PaymentMethod,
-    ShippingAddress,
-    User
+    ShippingAddress
   }
+
+  alias StoreRepo.Accounts.User
 
   alias ShoppingCart.Schemas.Orders.Order
 
   @static_order_status Enum.random(Order.order_statuses())
+  @user_documentation_types User.documentation_types()
 
   def empty_cart_no_order_factory do
     user = insert(:user)
@@ -312,8 +314,16 @@ defmodule ShoppingCart.Factory do
   end
 
   def user_factory do
+    documentation_number = Enum.random(10_000_000..99_999_999) |> Integer.to_string()
+
     %User{
-      name: Faker.Person.PtBr.name(),
+      first_name: Faker.Person.PtBr.first_name(),
+      last_name: Faker.Person.PtBr.last_name(),
+      phone_number: Faker.Phone.PtBr.phone(),
+      documentation_number: documentation_number,
+      documentation_type: Enum.random(@user_documentation_types),
+      email: Faker.Internet.email(),
+      hashed_password: FakerElixir.Internet.password(:strong),
       inserted_at: NaiveDateTime.new!(~D[2022-10-01], ~T[04:00:00.000]),
       updated_at: NaiveDateTime.new!(~D[2022-10-01], ~T[04:00:00.000])
     }
